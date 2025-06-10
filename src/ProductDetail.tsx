@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import Header from './components/Header'
+import Footer from './components/Footer'
 import { products } from './data/products'
 import BookingModal from './BookingModal'
 import './ProductDetail.css'
@@ -8,17 +10,19 @@ export default function ProductDetail() {
     const { id } = useParams<{ id: string }>()
     const product = products.find(p => p.id === Number(id))
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
-    const [isWishlisted, setIsWishlisted] = useState(false)
     const [selectedSize, setSelectedSize] = useState('')
-
-    const relatedProducts = products.filter(p => p.id !== Number(id)).slice(0, 4)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isWishlisted, setIsWishlisted] = useState(product?.isWishlisted || false)
 
     if (!product) {
         return (
-            <div className="product-not-found">
-                <h1>Товар не найден</h1>
-                <Link to="/catalog">Вернуться к каталогу</Link>
+            <div className="product-detail-page">
+                <Header />
+                <div className="product-not-found">
+                    <h1>Товар не найден</h1>
+                    <Link to="/catalog">Вернуться в каталог</Link>
+                </div>
+                <Footer />
             </div>
         )
     }
@@ -32,47 +36,35 @@ export default function ProductDetail() {
     }
 
     const openBookingModal = () => {
-        setIsBookingModalOpen(true)
+        setIsModalOpen(true)
     }
 
     return (
         <div className="product-detail-page">
-            {/* Header */}
-            <header className="header">
-                <div className="header-container">
-                    <Link to="/" className="logo">
-                        <span className="logo-text">𝒟𝒶𝓇𝒾𝒶</span>
-                    </Link>
-                    <nav className="navigation">
-                        <Link to="/" className="nav-link">ГЛАВНАЯ</Link>
-                        <Link to="/catalog" className="nav-link active">ПОДОБРАТЬ ПЛАТЬЕ</Link>
-                        <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
-                        <Link to="/blog" className="nav-link">БЛОГ</Link>
-                        <Link to="/about" className="nav-link">О НАС</Link>
-                        <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
-                        <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
-                    </nav>
-                    <div className="header-right">
-                        <div className="heart-icon">♡</div>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
+            {/* Main Content */}
             <main className="product-detail-content">
+                <div className="breadcrumb">
+                    <Link to="/">Главная</Link>
+                    <span>/</span>
+                    <Link to="/catalog">Каталог</Link>
+                    <span>/</span>
+                    <span>{product.name}</span>
+                </div>
+
                 <div className="product-detail-container">
-                    {/* Product Images */}
                     <div className="product-images">
                         <div className="main-image">
                             <img
                                 src={product.images[currentImageIndex]}
                                 alt={product.name}
                             />
-                            <div className="image-magnifier">🔍</div>
                         </div>
                         <div className="thumbnail-images">
                             {product.images.map((image, index) => (
                                 <button
-                                    key={index}
+                                    key={`${product.id}-image-${index}`}
                                     className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                                     onClick={() => handleImageClick(index)}
                                 >
@@ -82,37 +74,56 @@ export default function ProductDetail() {
                         </div>
                     </div>
 
-                    {/* Product Info */}
                     <div className="product-info">
-                        <div className="product-price">{product.price}</div>
+                        <h1 className="product-title">{product.name}</h1>
+
+                        <div className="product-price">
+                            <span className="current-price">{product.price} ₽</span>
+                        </div>
 
                         <div className="product-description">
                             <p>{product.description}</p>
                         </div>
 
-                        <div className="product-details">
-                            <div className="detail-row">
-                                <span className="detail-label">ЦВЕТ/ОТ РОЗОВЫЙ:</span>
-                                <span className="detail-value">{product.details.color}</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">ТИП ЗАСТЕЖКИ:</span>
-                                <span className="detail-value">{product.details.type}</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">ПОКРОЙ:</span>
-                                <span className="detail-value">{product.details.style}</span>
-                            </div>
-                            <div className="detail-row">
-                                <span className="detail-label">ДЕТАЛИ:</span>
-                                <span className="detail-value">{product.details.fabric}</span>
+                        <div className="product-sizes">
+                            <h3>Размер:</h3>
+                            <div className="size-options">
+                                {product.sizes.map((size) => (
+                                    <button
+                                        key={`${product.id}-size-${size}`}
+                                        className={`size-btn ${selectedSize === size ? 'selected' : ''}`}
+                                        onClick={() => setSelectedSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="size-selection">
-                            <h4>Размеры</h4>
-                            <div className="size-buttons">
-                                <button className="size-btn">ВЫБЕРИТЕ ОДИН ИЗ ВАРИАНТОВ</button>
+                        <div className="product-details">
+                            <div className="detail-item">
+                                <span className="detail-label">Цвет:</span>
+                                <span className="detail-value">{product.details.color}</span>
+                            </div>
+                            <div className="detail-item">
+                                <span className="detail-label">Тип:</span>
+                                <span className="detail-value">{product.details.type}</span>
+                            </div>
+                            <div className="detail-item">
+                                <span className="detail-label">Стиль:</span>
+                                <span className="detail-value">{product.details.style}</span>
+                            </div>
+                            <div className="detail-item">
+                                <span className="detail-label">Повод:</span>
+                                <span className="detail-value">{product.details.occasion}</span>
+                            </div>
+                            <div className="detail-item">
+                                <span className="detail-label">Ткань:</span>
+                                <span className="detail-value">{product.details.fabric}</span>
+                            </div>
+                            <div className="detail-item">
+                                <span className="detail-label">Категория:</span>
+                                <span className="detail-value">{product.category}</span>
                             </div>
                         </div>
 
@@ -130,89 +141,39 @@ export default function ProductDetail() {
                                 {isWishlisted ? '♥ Убрать из избранного' : '♡ Добавить в избранное'}
                             </button>
                         </div>
+
+                        <div className="product-care">
+                            <h3>Уход за изделием:</h3>
+                            <p>{product.details.care}</p>
+                        </div>
                     </div>
                 </div>
 
-                {/* Additional Information */}
-                <div className="additional-info">
-                    <div className="info-section">
-                        <h3>Фотосессии</h3>
-                        <p>{product.description}</p>
-                    </div>
-
-                    <div className="info-section">
-                        <h3>Мероприятия</h3>
-                        <p>{product.description}</p>
-                    </div>
-                </div>
-
-                {/* Related Products */}
                 <div className="related-products">
-                    <h3>Похожие Модели</h3>
+                    <h3>Похожие товары</h3>
                     <div className="related-grid">
-                        {relatedProducts.map(relatedProduct => (
-                            <div key={relatedProduct.id} className="related-product">
-                                <Link to={`/catalog/${relatedProduct.id}`} className="related-image">
-                                    <img src={relatedProduct.images[0]} alt={relatedProduct.name} />
-                                    <div className="related-overlay">
-                                        <span className="related-name">{relatedProduct.name}</span>
-                                    </div>
-                                </Link>
-                                <button className="related-wishlist">♡</button>
-                            </div>
-                        ))}
+                        {products
+                            .filter(p => p.category === product.category && p.id !== product.id)
+                            .slice(0, 4)
+                            .map(relatedProduct => (
+                                <div key={relatedProduct.id} className="related-product">
+                                    <Link to={`/catalog/${relatedProduct.id}`}>
+                                        <img src={relatedProduct.images[0]} alt={relatedProduct.name} />
+                                        <h4>{relatedProduct.name}</h4>
+                                        <p>{relatedProduct.price} ₽</p>
+                                    </Link>
+                                </div>
+                            ))}
                     </div>
                 </div>
             </main>
 
-            {/* Footer */}
-            <footer className="footer">
-                <div className="footer-container">
-                    <div className="footer-section">
-                        <h3>Платья в прокат</h3>
-                        <ul>
-                            <li><Link to="/catalog?category=evening">Вечерние</Link></li>
-                            <li><Link to="/catalog?category=short">Короткие</Link></li>
-                            <li><Link to="/catalog?category=long">Длинные</Link></li>
-                            <li><Link to="/catalog?category=cocktail">Коктейльные</Link></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Покупателям</h3>
-                        <ul>
-                            <li><Link to="/contact">Написать нам</Link></li>
-                            <li><Link to="/faq">Часто задаваемые вопросы</Link></li>
-                            <li><Link to="/blog">Блог</Link></li>
-                            <li><Link to="/privacy">Политика конфиденциальности</Link></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>О нас</h3>
-                        <ul>
-                            <li><Link to="/about">Наша компания</Link></li>
-                            <li><Link to="/careers">Вступить в команду</Link></li>
-                            <li><Link to="/terms">Соглашения</Link></li>
-                            <li><Link to="/discounts">Скидки</Link></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Мы в Соц. Сетях</h3>
-                        <div className="social-links">
-                            <a href="https://instagram.com" className="social-link">📷</a>
-                            <a href="https://vk.com" className="social-link">🔵</a>
-                            <a href="https://youtube.com" className="social-link">▶️</a>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <p>Daria Novík © 2025. All Rights Reserved.</p>
-                </div>
-            </footer>
+            <Footer />
 
             {/* Booking Modal */}
             <BookingModal
-                isOpen={isBookingModalOpen}
-                onClose={() => setIsBookingModalOpen(false)}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
                 productName={product.name}
             />
         </div>

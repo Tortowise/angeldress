@@ -1,4 +1,8 @@
-import { useParams, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import BookingModal from './BookingModal'
 import './BlogPost.css'
 
 interface BlogPostData {
@@ -107,9 +111,11 @@ const relatedPosts = [
     }
 ]
 
-export default function BlogPost() {
+function BlogPost() {
     const { id } = useParams<{ id: string }>()
     const post = id ? blogPostsData[id] : null
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const navigate = useNavigate()
 
     if (!post) {
         return (
@@ -122,28 +128,9 @@ export default function BlogPost() {
 
     return (
         <div className="blog-post-page">
-            {/* Header */}
-            <header className="header">
-                <div className="header-container">
-                    <Link to="/" className="logo">
-                        <span className="logo-text">𝒟𝒶𝓇𝒾𝒶</span>
-                    </Link>
-                    <nav className="navigation">
-                        <Link to="/" className="nav-link">ГЛАВНАЯ</Link>
-                        <Link to="/catalog" className="nav-link">ПОДОБРАТЬ ПЛАТЬЕ</Link>
-                        <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
-                        <Link to="/blog" className="nav-link active">БЛОГ</Link>
-                        <Link to="/about" className="nav-link">О НАС</Link>
-                        <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
-                        <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
-                    </nav>
-                    <div className="header-right">
-                        <div className="heart-icon">♡</div>
-                    </div>
-                </div>
-            </header>
+            <Header currentPage="blog" />
 
-            {/* Hero Section */}
+            {/* Main Content */}
             <section className="post-hero">
                 <div className="hero-content">
                     <div className="breadcrumb">
@@ -181,6 +168,16 @@ export default function BlogPost() {
                             {post.content.paragraphs.map((paragraph, index) => (
                                 <p key={index}>{paragraph}</p>
                             ))}
+                        </div>
+
+                        {/* Call to Action */}
+                        <div className="blog-cta">
+                            <button
+                                className="consultation-btn"
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                Записаться на консультацию
+                            </button>
                         </div>
                     </div>
 
@@ -236,48 +233,16 @@ export default function BlogPost() {
             </main>
 
             {/* Footer */}
-            <footer className="footer">
-                <div className="footer-container">
-                    <div className="footer-section">
-                        <h3>Платья в прокат</h3>
-                        <ul>
-                            <li><a href="/dresses/evening">Вечерние</a></li>
-                            <li><a href="/dresses/cocktail">Коротки</a></li>
-                            <li><a href="/dresses/long">Длинные</a></li>
-                            <li><a href="/dresses/cocktail-2">Коктейльные</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Покупателям</h3>
-                        <ul>
-                            <li><a href="/contact">Написать нам</a></li>
-                            <li><a href="/faq">Часто задаваемые вопросы</a></li>
-                            <li><a href="/blog">Блог</a></li>
-                            <li><a href="/privacy">Политика конфиденциальности</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>О нас</h3>
-                        <ul>
-                            <li><a href="/about">Наша компания</a></li>
-                            <li><a href="/careers">Вступить в команду</a></li>
-                            <li><a href="/terms">Соглашения</a></li>
-                            <li><a href="/discounts">Скидки</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Мы в Соц. Сетях</h3>
-                        <div className="social-links">
-                            <a href="https://instagram.com" className="social-link">📷</a>
-                            <a href="https://vk.com" className="social-link">🔵</a>
-                            <a href="https://youtube.com" className="social-link">▶️</a>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <p>Daria Novík © 2025. All Rights Reserved.</p>
-                </div>
-            </footer>
+            <Footer />
+
+            {/* Booking Modal */}
+            <BookingModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                productName="Эксклюзивная консультация"
+            />
         </div>
     )
 }
+
+export default BlogPost

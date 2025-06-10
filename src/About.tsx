@@ -1,31 +1,14 @@
 import { Link } from 'react-router-dom'
+import Header from './components/Header'
+import Footer from './components/Footer'
 import './App.css'
 
 function About() {
     return (
         <div className="app">
-            {/* Header */}
-            <header className="header">
-                <div className="header-container">
-                    <Link to="/" className="logo">
-                        <span className="logo-text">𝒟𝒶𝓇𝒾𝒶</span>
-                    </Link>
-                    <nav className="navigation">
-                        <Link to="/" className="nav-link">ГЛАВНАЯ</Link>
-                        <Link to="/catalog" className="nav-link">ПОДОБРАТЬ ПЛАТЬЕ</Link>
-                        <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
-                        <Link to="/blog" className="nav-link">БЛОГ</Link>
-                        <Link to="/about" className="nav-link active">О НАС</Link>
-                        <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
-                        <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
-                    </nav>
-                    <div className="header-right">
-                        <div className="heart-icon">♡</div>
-                    </div>
-                </div>
-            </header>
+            <Header currentPage="about" />
 
-            {/* About Page Content */}
+            {/* About Content */}
             <main className="about-page">
                 {/* Hero Section */}
                 <section className="about-hero">
@@ -89,7 +72,7 @@ function About() {
                                     <img src="https://ugc.same-assets.com/Y7SmBk3wfu7QDWrlyB0WtGkyFbOp_p34.jpeg" alt="Марина Крайнова" />
                                     <h4>Марина Крайнова</h4>
                                     <p>В процессе, конечно, глубокий уровень погружения способствует
-                                        подготовке к индивидуальной решении.</p>
+                                        подготовке к индивидуальной решению.</p>
                                     <div className="specialist-social">
                                         <a href="#instagram">📷</a>
                                         <a href="#twitter">🐦</a>
@@ -134,49 +117,7 @@ function About() {
                 </div>
             </main>
 
-            {/* Footer */}
-            <footer className="footer">
-                <div className="footer-container">
-                    <div className="footer-section">
-                        <h3>Платья в прокат</h3>
-                        <ul>
-                            <li><a href="#evening">Вечерние</a></li>
-                            <li><a href="#cocktail">Коктейль</a></li>
-                            <li><a href="#long">Длинные</a></li>
-                            <li><a href="#cocktail-2">Коктейльные</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Покупателям</h3>
-                        <ul>
-                            <li><a href="#contact">Написать нам</a></li>
-                            <li><a href="#faq">Часто задаваемые вопросы</a></li>
-                            <li><a href="#terms">Политика офертации</a></li>
-                            <li><a href="#privacy">Политика конфиденциальности</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>О нас</h3>
-                        <ul>
-                            <li><a href="#company">Наша компания</a></li>
-                            <li><a href="#careers">Вступить в команду</a></li>
-                            <li><a href="#partnership">Сотрудничество</a></li>
-                            <li><a href="#media">Скидки</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-section">
-                        <h3>Мы в Соц. Сетях</h3>
-                        <div className="social-links">
-                            <a href="https://instagram.com" className="social-link">📷</a>
-                            <a href="https://twitter.com" className="social-link">🐦</a>
-                            <a href="https://tiktok.com" className="social-link">📱</a>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <p>Daria Novík © 2025. All Rights Reserved.</p>
-                </div>
-            </footer>
+            <Footer />
         </div>
     )
 }

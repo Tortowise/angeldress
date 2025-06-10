@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { BookingFormData } from './types/Product'
+import type React from 'react'
+import { useState } from 'react'
+import type { BookingFormData } from './types/Product'
 import './BookingModal.css'
 
 interface BookingModalProps {

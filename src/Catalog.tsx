@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Product, ProductCategory } from './types/Product'
+import { Product, type ProductCategory } from './types/Product'
 import { products } from './data/products'
 import './Catalog.css'
 

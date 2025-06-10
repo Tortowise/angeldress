@@ -7,6 +7,7 @@ import About from './About'
 import BlogPost from './BlogPost'
 import Catalog from './Catalog'
 import ProductDetail from './ProductDetail'
+import Contacts from './Contacts'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/about" element={<About />} />
                 <Route path="/catalog" element={<Catalog />} />
                 <Route path="/catalog/:id" element={<ProductDetail />} />
+                <Route path="/contacts" element={<Contacts />} />
             </Routes>
         </Router>
     </StrictMode>,

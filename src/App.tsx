@@ -48,7 +48,7 @@ function App() {
                         <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
                         <Link to="/blog" className="nav-link active">БЛОГ</Link>
                         <Link to="/about" className="nav-link">О НАС</Link>
-                        <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
+                        <Link to="/contacts" className="nav-link">КОНТАКТЫ</Link>
                         <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
                     </nav>
                     <div className="header-right">
@@ -103,7 +103,7 @@ function App() {
                     <div className="footer-section">
                         <h3>Покупателям</h3>
                         <ul>
-                            <li><Link to="/contact">Написать нам</Link></li>
+                            <li><Link to="/contacts">Написать нам</Link></li>
                             <li><Link to="/faq">Часто задаваемые вопросы</Link></li>
                             <li><Link to="/blog">Блог</Link></li>
                             <li><Link to="/privacy">Политика конфиденциальности</Link></li>

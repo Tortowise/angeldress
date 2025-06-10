@@ -13,11 +13,11 @@ function About() {
                     <nav className="navigation">
                         <Link to="/" className="nav-link">ГЛАВНАЯ</Link>
                         <Link to="/catalog" className="nav-link">ПОДОБРАТЬ ПЛАТЬЕ</Link>
-                         <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
+                        <Link to="/accessories" className="nav-link">АКСЕССУАРЫ</Link>
                         <Link to="/blog" className="nav-link">БЛОГ</Link>
                         <Link to="/about" className="nav-link active">О НАС</Link>
-                         <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
-                         <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
+                        <Link to="/contact" className="nav-link">КОНТАКТЫ</Link>
+                        <Link to="/size" className="nav-link">УЗНАТЬ БОЛЬШЕ</Link>
                     </nav>
                     <div className="header-right">
                         <div className="heart-icon">♡</div>
